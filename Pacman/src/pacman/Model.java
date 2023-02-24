@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -61,6 +62,14 @@ public class Model extends JPanel implements ActionListener {
 			22,	24,	24,	24,	25,	25,	25,	25,	22,	20,	20,	20,	22,	22,	20,
 	};
 	
+	private void loadImg() {
+		up = new ImageIcon("/img/up.gif").getImage();
+		down = new ImageIcon("/img/down.gif").getImage();
+		right = new ImageIcon("/img/right.gif").getImage();
+		left = new ImageIcon("/img/left.gif").getImage();
+		ghost = new ImageIcon("/img/ghost.gif").getImage();
+		heart = new ImageIcon("/img/heart.gif").getImage();
+	}
 	
 	
 	

@@ -3,11 +3,13 @@ package pacman;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.Timer;
+
 public class TAdapter extends KeyAdapter {
 	
 	private boolean inGame = false;
 	private boolean dying = false;
-	
+	private Timer timer;
 	private int pacmanX, pacmanY, pacmanDX, pacmanDY;
 	private int reqDX, reqDY;
 	
@@ -34,8 +36,17 @@ public class TAdapter extends KeyAdapter {
 				reqDX = 0;
 				reqDY = -1;
 				break;
+			case KeyEvent.VK_ESCAPE:
+				timer.isRunning();
+				inGame = false;
+				break;
 			}
 			
+		} else {
+			if(key == KeyEvent.VK_SPACE) {
+				inGame = true;
+				
+			}
 		}
 		
 	

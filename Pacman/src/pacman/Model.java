@@ -16,9 +16,7 @@ public class Model extends JPanel implements ActionListener {
 	private Dimension dimension;
 	//Font
 	private final Font font = new Font("Helvetica", Font.BOLD, 14);
-	
-	private boolean inGame = false;
-	private boolean dying = false;	
+		
 	//Block
 	private final int blockSize = 24;
 	private final int blockNum 	= 15;
@@ -35,8 +33,8 @@ public class Model extends JPanel implements ActionListener {
 	private Image heart, ghost;
 	private Image right, left, up, down;
 	//Position pacman
-	private int pacmanX, pacmanY, pacmanDX, pacmanDY;
-	private int reqDX, reqDY;
+//	private int pacmanX, pacmanY, pacmanDX, pacmanDY;
+//	private int reqDX, reqDY;
 	//ValidSpeed
 	private int validSpeed [] = {1,2,3,4,5,6,7,8};
 	private int maxSpeed = 6;
@@ -87,6 +85,25 @@ public class Model extends JPanel implements ActionListener {
 		timer = new Timer(50, this);
 		timer.restart();		
 	}
+	
+	public void initGame() {
+		lives = 3;
+		score = 0;
+		ghostNum = 6;
+		currentSpeed = 3;
+		initLevel();
+	}
+	
+	private void initLevel() {
+		
+		for(int i = 0; i < blockNum * blockNum; i++ ) {
+			screenData[i] = levelData[i];
+			
+		}
+		
+	}
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

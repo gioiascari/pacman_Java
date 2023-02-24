@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.net.ssl.ExtendedSSLSession;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -69,16 +70,23 @@ public class Model extends JPanel implements ActionListener {
 		left = new ImageIcon("/img/left.gif").getImage();
 		ghost = new ImageIcon("/img/ghost.gif").getImage();
 		heart = new ImageIcon("/img/heart.gif").getImage();
+	};
+	
+	private void initVariables() {
+		screenData = new short[blockNum * blockNum];
+		dimension = new Dimension(400,400);
+		ghostX = new int[maxGhost];
+		ghostY = new int[maxGhost];
+		ghostDX = new int[maxGhost];
+		ghostDY = new int[maxGhost];
+		ghostSpeed = new int[maxGhost];
+		dx = new int[4];
+		dy = new int[4];
+		
+		//timer
+		timer = new Timer(50, this);
+		timer.restart();		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

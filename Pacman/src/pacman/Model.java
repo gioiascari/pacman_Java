@@ -1,8 +1,12 @@
 package pacman;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,7 +20,8 @@ public class Model extends JPanel implements ActionListener {
 	private Dimension dimension;
 	//Font
 	private final Font font = new Font("Helvetica", Font.BOLD, 14);
-		
+	private boolean inGame = false;
+	private boolean dying = false;
 	//Block
 	private final int blockSize = 24;
 	private final int blockNum 	= 15;
@@ -33,8 +38,8 @@ public class Model extends JPanel implements ActionListener {
 	private Image heart, ghost;
 	private Image right, left, up, down;
 	//Position pacman
-//	private int pacmanX, pacmanY, pacmanDX, pacmanDY;
-//	private int reqDX, reqDY;
+	private int pacmanX, pacmanY, pacmanDX, pacmanDY;
+	private int reqDX, reqDY;
 	//ValidSpeed
 	private int validSpeed [] = {1,2,3,4,5,6,7,8};
 	private int maxSpeed = 6;
@@ -103,6 +108,45 @@ public class Model extends JPanel implements ActionListener {
 		
 	}
 	
+	private void continueLevel() {
+		int dx = 1;
+		int random;
+		
+		//Init ghost speed x block
+		for(int i = 0; i < ghostNum; i++ ) {
+			ghostY[i] = 4*blockSize;
+			ghostX[i] = 4*blockSize;
+			ghostDY[i]= 0;
+			ghostDX[i]= dx;
+			dx = -dx;
+			random = (int) (Math.random()* currentSpeed + 1);
+			if(random > currentSpeed) {
+				random = currentSpeed;
+			}
+			ghostSpeed[i] = validSpeed[random];
+		}
+		
+		pacmanX = 7*blockSize;
+		pacmanY = 11*blockSize;
+		pacmanDX = 0;
+		pacmanDY = 0;
+		reqDX = 0;
+		reqDY = 0;
+		dying = false;
+		}
+	
+	public void paint(Graphics g) {
+		super.paint(g);
+		
+		Graphics2D g2D = (Graphics2D) g;
+		//BGColor
+		g2D.setColor(Color.black);
+		g2D.fillRect(0, 0, dimension.width, dimension.height);
+		
+		Toolkit.getDefaultToolkit().sync();
+	}
+	
+	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -111,3 +155,4 @@ public class Model extends JPanel implements ActionListener {
 	}
 
 }
+

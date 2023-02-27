@@ -13,6 +13,10 @@ public class TAdapter extends KeyAdapter {
 	private int pacmanX, pacmanY, pacmanDX, pacmanDY;
 	private int reqDX, reqDY;
 	
+	private int lives, score;
+	
+	Model mainPacman;
+	
 	public void keyPressed(KeyEvent e) {
 		
 		int key = e.getKeyCode();
@@ -45,6 +49,7 @@ public class TAdapter extends KeyAdapter {
 		} else {
 			if(key == KeyEvent.VK_SPACE) {
 				inGame = true;
+				mainPacman.initGame();
 				
 			}
 		}

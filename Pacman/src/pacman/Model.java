@@ -135,6 +135,20 @@ public class Model extends JPanel implements ActionListener {
 		dying = false;
 		}
 	
+	private void playGame(Graphics2D g2D) {
+		
+		
+		
+	}
+	
+	private void movePac() {
+		int pos;
+		short ch;
+		if(pacmanX % blockSize == 0 && pacmanY % blockSize == 0) {
+			pos = pacmanX/blockSize + blockNum * (pacmanY / blockSize);
+			ch = screenData[pos];
+		}
+	}
 	public void paint(Graphics g) {
 		super.paint(g);
 		
@@ -142,6 +156,15 @@ public class Model extends JPanel implements ActionListener {
 		//BGColor
 		g2D.setColor(Color.black);
 		g2D.fillRect(0, 0, dimension.width, dimension.height);
+		
+		drawMaze(g2D);
+		drawScore(g2D);
+		
+		if(inGame) {
+			playGame(g2D);
+		}else {
+			showIntroScreen(g2D);
+		}
 		
 		Toolkit.getDefaultToolkit().sync();
 	}

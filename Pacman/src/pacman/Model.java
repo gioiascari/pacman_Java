@@ -136,6 +136,8 @@ public class Model extends JPanel implements ActionListener {
 		}
 	
 	private void playGame(Graphics2D g2D) {
+		movePac();
+		drawPac(g2D);
 		
 		
 		
@@ -147,8 +149,103 @@ public class Model extends JPanel implements ActionListener {
 		if(pacmanX % blockSize == 0 && pacmanY % blockSize == 0) {
 			pos = pacmanX/blockSize + blockNum * (pacmanY / blockSize);
 			ch = screenData[pos];
+			//16 sono i blocchi che può mangiare pacman
+			if((ch & 16) != 0) {
+				screenData[pos]	= (short)(ch & 15);
+				//Se pacman ha mangiato 16 blocchi allora il risultato aumenta di 1
+				score++;
+			}
+			//Reqdx e Reqdy sono i controlli di pacman
+			if(reqDX != 0 || reqDY != 0) {
+				if(!(reqDX == -1 && reqDY == 0 && (ch & 1) != 0)
+						||(reqDX == 1 && reqDY == 0 && (ch & 4) != 0)
+						||(reqDX == 0 && reqDY == -1 && (ch & 2) != 0)
+						||(reqDX == 0 && reqDY == 0 && (ch & 8) != 0)
+						) {
+						pacmanX = reqDX;
+						pacmanY = reqDY;
+				}
+			}
+			//Questi sono i controlli per i movimenti
+			if((pacmanDX == -1 && pacmanY == 0 && (ch & 1) != 0)
+					||(pacmanDX == 1 && pacmanDY == 0 && (ch & 4) != 0)
+					||(pacmanDX == 0 && pacmanDY == -1 && (ch & 2) != 0)
+					||(pacmanDX == 0 && pacmanDY == 0 && (ch & 8) != 0)
+					) {
+				pacmanDX = 0;
+				pacmanDY = 0;
+			}
+		}
+		pacmanX = pacmanX + pacSpeed * pacmanDX;
+		pacmanY = pacmanY + pacSpeed * pacmanDY;
+	}
+	
+	public void drawPac(Graphics2D g2D) {
+		if(reqDX == -1) {
+			g2D.drawImage(left, pacmanX + 1, pacmanY + 1, this);
+		}else if(reqDX == 1) {
+			g2D.drawImage(right, pacmanX + 1, pacmanY + 1, this);
+		}else if(reqDY == -1) {
+			g2D.drawImage(up, pacmanX + 1, pacmanY + 1, this);
+		}else {
+			g2D.drawImage(down, pacmanX + 1, pacmanY + 1, this);
 		}
 	}
+	//Questo metodo permette ai fantasmi di muoversi automaticamente
+	public void moveGhosts(Graphics2D g2D) {
+		int pos;
+		short count;
+		for(int i = 0; i < ghostNum; i++) {
+			if(ghostX[i] % blockSize == 0 && ghostY[i] % blockSize == 0) {
+				pos = ghostX[i]/blockSize + blockNum * (ghostY[i] / blockSize);
+				count = 0;
+				
+				//Ripeto questo passaggio per quattro volte(tante quanto sono i lati del rettangolo/quadrato contenitore)
+				if((screenData[pos] & 1) == 0 && ghostDX[i] != 1) {
+					dx[count] = -1;
+					dy[count] = 0;
+					count ++;
+				}
+				if((screenData[pos] & 2) == 0 && ghostDY[i] != 1) {
+					dx[count] = 0;
+					dy[count] = -1;
+					count ++;
+				}
+				if((screenData[pos] & 4) == 0 && ghostX[i] != -1) {
+					dx[count] = 1;
+					dy[count] = 0;
+					count ++;
+				}
+				if((screenData[pos] & 8) == 0 && ghostX[i] != -1) {
+					dx[count] = 0;
+					dy[count] = 1;
+					count ++;
+				}
+				if(count == 0) {
+					//Determino dove sono posizionati i fantasmi
+					if((screenData[pos] & 15) == 15) {
+						ghostDY[i] = 0;
+						ghostDX[i] = 0;
+					}else {
+						ghostDY[i] = -ghostDY[i];
+						ghostDX[i] = -ghostDX[i];
+					}
+				}else {
+					count = (short) (Math.random() * count);
+					if(count > 3) {
+						count = 3;
+					}
+					ghostDY[i] = dy[count];
+					ghostDX[i] = dx[count];
+				}
+			}
+			ghostX[i] = ghostX[i] + ghostDX[i] * ghostSpeed[i];
+			ghostY[i] = ghostY[i] + ghostDY[i] * ghostSpeed[i];
+			
+		}
+	}
+	
+	
 	public void paint(Graphics g) {
 		super.paint(g);
 		

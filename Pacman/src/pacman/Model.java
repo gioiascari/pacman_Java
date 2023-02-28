@@ -17,6 +17,7 @@ import javax.net.ssl.ExtendedSSLSession;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.text.StyleContext.SmallAttributeSet;
 
 public class Model extends JPanel implements ActionListener {
 
@@ -129,8 +130,15 @@ public class Model extends JPanel implements ActionListener {
 		
 	}
 	
-	public void drawScore() {
-		
+	public void drawScore(Graphics2D g2D) {
+		g2D.setFont(font);
+		g2D.setColor(new Color(5,151,79));
+		String s = "Score: " + score;
+		g2D.drawString(s, screenSize / 2 + 96, screenSize + 16);
+		//Quante vite sono ancora disponibili
+		for(int i = 0; i < lives; i++) {
+			g2D.drawImage(heart, i * 28 + 8, screenSize + 1, this);
+		}
 	}
 
 	private void movePac() {

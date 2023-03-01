@@ -70,17 +70,15 @@ public class Model extends JPanel implements ActionListener {
 		addKeyListener(new TAdapter());
 		setFocusable(true);
 		initGame();
-//		TAdapter tAdapter = new TAdapter();
-//		tAdapter.keyPressed(null);
 	}
 
 	private void loadImg() {
-		up = new ImageIcon("/src/img/up.gif").getImage();
-		down = new ImageIcon("/src/img/down.gif").getImage();
-		right = new ImageIcon("/src/img/right.gif").getImage();
-		left = new ImageIcon("/src/img/left.gif").getImage();
-		ghost = new ImageIcon("/src/img/ghost.gif").getImage();
-		heart = new ImageIcon("/src/img/heart.png").getImage();
+		up = new ImageIcon("src/img/up.gif").getImage();
+		down = new ImageIcon("src/img/down.gif").getImage();
+		right = new ImageIcon("src/img/right.gif").getImage();
+		left = new ImageIcon("src/img/left.gif").getImage();
+		ghost = new ImageIcon("src/img/ghost.gif").getImage();
+		heart = new ImageIcon("src/img/heart.png").getImage();
 	};
 
 	private void initVariables() {
@@ -159,11 +157,12 @@ public class Model extends JPanel implements ActionListener {
 			}
 			// Reqdx e Reqdy sono i controlli di pacman
 			if (reqDX != 0 || reqDY != 0) {
-				if (!((reqDX == -1 && reqDY == 0 && (ch & 1) != 0) || (reqDX == 1 && reqDY == 0 && (ch & 4) != 0)
+				if (!((reqDX == -1 && reqDY == 0 && (ch & 1) != 0) 
+						|| (reqDX == 1 && reqDY == 0 && (ch & 4) != 0)
 						|| (reqDX == 0 && reqDY == -1 && (ch & 2) != 0)
 						|| (reqDX == 0 && reqDY == 1 && (ch & 8) != 0))) {
-					pacmanX = reqDX;
-					pacmanY = reqDY;
+					pacmanDX = reqDX;
+					pacmanDY = reqDY;
 				}
 			}
 			// Questi sono i controlli per i movimenti
@@ -393,16 +392,16 @@ public class Model extends JPanel implements ActionListener {
 			int key = e.getKeyCode();
 
 			if (inGame) {
-                if (key == KeyEvent.VK_LEFT) {
+                if (key == KeyEvent.VK_A) {
                     reqDX = -1;
                     reqDY = 0;
-                } else if (key == KeyEvent.VK_RIGHT) {
+                } else if (key == KeyEvent.VK_D) {
                 	reqDX = 1;
                 	reqDY = 0;
-                } else if (key == KeyEvent.VK_UP) {
+                } else if (key == KeyEvent.VK_W) {
                 	reqDX = 0;
                 	reqDY = -1;
-                } else if (key == KeyEvent.VK_DOWN) {
+                } else if (key == KeyEvent.VK_S) {
                 	reqDX = 0;
                 	reqDY = 1;
                 } else if (key == KeyEvent.VK_ESCAPE && timer.isRunning()) {
